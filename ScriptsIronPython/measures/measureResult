@@ -1,0 +1,5 @@
+fold_pos_s0	AUC 0,74097 prec@5 0,4109 num_items 1378 num_lists 2900
+fold_pos_s0	AUC 0,74702 prec@5 0,45162 num_items 1386 num_lists 2991
+fold_pos_s0	AUC 0,75446 prec@5 0,46847 num_items 1391 num_lists 3000
+fold_pos_s0	AUC 0,74703 prec@5 0,4722 num_items 1372 num_lists 3000
+fold_pos_s0	AUC 0,7468 prec@5 0,45707 num_items 1375 num_lists 3000
