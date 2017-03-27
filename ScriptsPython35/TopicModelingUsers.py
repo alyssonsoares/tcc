@@ -3,8 +3,9 @@ import pandas as pd
 
 def createdataset(dataframe):
     dataset = []
-    for j in range(1, len(dataframe["user_id"].unique())):
-        df = dataframe[dataframe.user_id == j]
+    users = dataframe['user_id'].unique()
+    for user in users:
+        df = dataframe[dataframe.user_id == user]
         document = ''
         for row in df.itertuples():
             item = str(row.item_id) + ' ' + str(row.rate) + ' '
@@ -14,7 +15,7 @@ def createdataset(dataframe):
 
 def writeBackArq(list,name):
     df = pd.DataFrame(list)
-    df.to_csv('lda-format-files\\'+name,header=False,index=False,index_label=False)
+    df.to_csv('plda\\lda-format-files\\'+name,header=False,index=False,index_label=False)
 
 if __name__ == '__main__':
     name_cols = ['user_id', 'item_id', 'rate', 'timestamp']
