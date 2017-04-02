@@ -22,10 +22,10 @@ def agrega_usuarios():
             set_sim = list(eval(list(groups_sim[groups_sim.id_group == j]['group_set'])[0]))
             set_rand = list(eval(list(groups_rand[groups_sim.id_group == j]['group_set'])[0]))
 
-            simi_tr = train[((train.user_id == set_sim[0]) | (train.user_id == set_sim[1]) | (train.user_id == set_sim[2]) | (train.user_id == set_sim[3]) | (train.user_id == set_sim[4]))]
-            simi_te = test[((test.user_id == set_sim[0]) | (test.user_id == set_sim[1]) | (test.user_id == set_sim[2]) | (test.user_id == set_sim[3]) | (test.user_id == set_sim[4]))]
-            rand_tr = train[((train.user_id == set_rand[0]) | (train.user_id == set_rand[1]) | (train.user_id == set_rand[2]) | (train.user_id == set_rand[3]) | (train.user_id == set_rand[4]))]
-            rand_te = test[((test.user_id == set_rand[0]) | (test.user_id == set_rand[1]) | (test.user_id == set_rand[2]) | (test.user_id == set_rand[3]) | (test.user_id == set_rand[4]))]
+            simi_tr = train[train.user_id.isin(set_sim)]
+            simi_te = test[test.user_id.isin(set_sim)]
+            rand_tr = train[train.user_id.isin(set_rand)]
+            rand_te = test[test.user_id.isin(set_rand)]
 
             simi_tr["user_id"] = j
             simi_te["user_id"] = j

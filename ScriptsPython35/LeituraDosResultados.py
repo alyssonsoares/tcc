@@ -4,7 +4,7 @@ import math
 def precision(groups, list_rank,df_test):
     result_list = []
     for i in range(0,len(groups)):
-        items_on_test = set(df_test[((df_test.user_id == groups[i][0]) | (df_test.user_id == groups[i][1]) | (df_test.user_id == groups[i][2]) | (df_test.user_id == groups[i][3]) | (df_test.user_id == groups[i][4]))]['item_id'])
+        items_on_test = set(df_test[df_test.user_id.isin(groups[i])]['item_id'])
         items_on_pred = set(list_rank[i]['item_id'])
         values = []
         for j in items_on_pred:
@@ -17,7 +17,7 @@ def precision(groups, list_rank,df_test):
 def recall(groups, list_rank,df_test):
     result_list = []
     for i in range(0,len(groups)):
-        items_on_test = set(df_test[((df_test.user_id == groups[i][0]) | (df_test.user_id == groups[i][1]) | (df_test.user_id == groups[i][2]) | (df_test.user_id == groups[i][3]) | (df_test.user_id == groups[i][4]))]['item_id'])
+        items_on_test = set(df_test[df_test.user_id.isin(groups[i])]['item_id'])
         items_on_pred = set(list_rank[i]['item_id'])
         values = []
         for j in items_on_pred:
@@ -46,7 +46,7 @@ def dcg(r_list,N):
 def ndcg(groups, list_rank,df_test):
     result_list = []
     for i in range(0,len(groups)):
-        items_on_test = set(df_test[((df_test.user_id == groups[i][0]) | (df_test.user_id == groups[i][1]) | (df_test.user_id == groups[i][2]) | (df_test.user_id == groups[i][3]) | (df_test.user_id == groups[i][4]))]['item_id'])
+        items_on_test = set(df_test[df_test.user_id.isin(groups[i])]['item_id'])
         items_on_pred = set(list_rank[i]['item_id'])
         dcg_list = []
         idcg_list = []
@@ -69,8 +69,8 @@ def ndcg(groups, list_rank,df_test):
  
 
 def evaluate():
-    group_rec_simi = "group-rec-simi\\"
-    group_rec_rand = "group-rec-simi\\"
+    group_rec_simi = "D:\\TCC_2\\group-rec-simi\\"
+    group_rec_rand = "D:\\TCC_2\\group-rec-rand\\"
     u_cols = ['user_id','item_id','rating','timestamp']
     g_cols = ['id_group','group_set']
     algoritmo_recInd = "Positive"
@@ -116,18 +116,18 @@ def evaluate():
                 values.append(vec.split('      '))
             list_rank_rand.append(pd.DataFrame(values,columns=[column1,column2]))
         #Call evaluate metrics
-        #result_pre_simi.append(precision(group_s,list_rank_simi,df_items_test))
-        #result_rec_simi.append(recall(group_s,list_rank_simi,df_items_test))
+        result_pre_simi.append(precision(group_s,list_rank_simi,df_items_test))
+        result_rec_simi.append(recall(group_s,list_rank_simi,df_items_test))
         result_ndcg_simi.append(ndcg(group_s,list_rank_simi,df_items_test))
-        #result_pre_rand.append(precision(group_r,list_rank_rand,df_items_test))
-        #result_rec_rand.append(recall(group_r,list_rank_rand,df_items_test))
+        result_pre_rand.append(precision(group_r,list_rank_rand,df_items_test))
+        result_rec_rand.append(recall(group_r,list_rank_rand,df_items_test))
         result_ndcg_rand.append(ndcg(group_r,list_rank_rand,df_items_test))
     result_to_file = []
-    #result_to_file.append(algoritmo_recInd + "_" + aggregation + "_simi_precision = " + str(np.mean(result_pre_simi)))
-    #result_to_file.append(algoritmo_recInd + "_" + aggregation + "_simi_recall = " + str(np.mean(result_rec_simi)))
+    result_to_file.append(algoritmo_recInd + "_" + aggregation + "_simi_precision = " + str(np.mean(result_pre_simi)))
+    result_to_file.append(algoritmo_recInd + "_" + aggregation + "_simi_recall = " + str(np.mean(result_rec_simi)))
     result_to_file.append(algoritmo_recInd + "_" + aggregation + "_simi_ndcg = " + str(np.mean(result_ndcg_simi)))
-    #result_to_file.append(algoritmo_recInd + "_" + aggregation + "_rand_precision = " + str(np.mean(result_pre_rand)))
-    #result_to_file.append(algoritmo_recInd + "_" + aggregation + "_rand_recall = " + str(np.mean(result_rec_rand)))
+    result_to_file.append(algoritmo_recInd + "_" + aggregation + "_rand_precision = " + str(np.mean(result_pre_rand)))
+    result_to_file.append(algoritmo_recInd + "_" + aggregation + "_rand_recall = " + str(np.mean(result_rec_rand)))
     result_to_file.append(algoritmo_recInd + "_" + aggregation + "_rand_ndcg = " + str(np.mean(result_ndcg_rand)))
     tofile_s = pd.Series(result_to_file)
     tofile_s.to_csv(algoritmo_recInd + "_" + aggregation + "_group-measures.result",sep='\t',encoding='utf8')
