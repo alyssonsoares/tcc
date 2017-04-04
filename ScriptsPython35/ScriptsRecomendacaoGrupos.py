@@ -7,8 +7,9 @@ predict_p = pd.DataFrame()
 predict_r = pd.DataFrame()
 result_a = []
 result_l = []
-groups_simi = pd.read_csv('D:\TCC_2\\ml-100k\\groups_simi.csv',sep='\t',names=g_cols)
-groups_rand = pd.read_csv('D:\TCC_2\\ml-100k\\groups_rand.csv',sep='\t',names=g_cols)
+size = 20
+groups_simi = pd.read_csv('D:\TCC_2\\ml-100k\\groups_simi_sz'+str(size)+'.csv',sep='\t',names=g_cols)
+groups_rand = pd.read_csv('D:\TCC_2\\ml-100k\\groups_rand_sz'+str(size)+'.csv',sep='\t',names=g_cols)
 groups_s = []
 groups_r = []
 
@@ -29,7 +30,7 @@ def getListRank(groups):
 
 def printFile(pdSeries, name):
     tofile_s = pd.Series(pdSeries)
-    tofile_s.to_csv(name, sep='\t', encoding='utf8')
+    tofile_s.to_csv(name, sep='\t', encoding='utf8',header=False,index=True,index_label=True)
 
 
 groups = groups_simi['group_set']
@@ -41,13 +42,13 @@ for g in groups:
 for i in range(1,6):
     predict_p = pd.read_csv('D:\\TCC_2\\individual-rec\\Positive_rec' + str(i) + '.res' ,sep='\t',names=u_cols)
     getListRank(groups_s)
-    printFile(result_a, "D:\\TCC_2\\group-rec-simi\\Positive_RankedList_AVG_fold_" + str(i) + ".result")
-    printFile(result_l, "D:\\TCC_2\\group-rec-simi\\Positive_RankedList_LM_fold_" + str(i) + ".result")
+    printFile(result_a, "D:\\TCC_2\\group-rec-simi\\RankedList_AVG_sz"+str(size)+"_fold_" + str(i) + ".result")
+    printFile(result_l, "D:\\TCC_2\\group-rec-simi\\RankedList_LM_sz"+str(size)+"_fold_" + str(i) + ".result")
     result_a = []
     result_l = []
     getListRank(groups_r)
-    printFile(result_a, "D:\\TCC_2\\group-rec-rand\\Positive_RankedList_AVG_fold_" + str(i) + ".result")
-    printFile(result_l, "D:\\TCC_2\\group-rec-rand\\Positive_RankedList_LM_fold_" + str(i) + ".result")
+    printFile(result_a, "D:\\TCC_2\\group-rec-rand\\RankedList_AVG"+str(size)+"_fold_" + str(i) + ".result")
+    printFile(result_l, "D:\\TCC_2\\group-rec-rand\\RankedList_LM"+str(size)+"_fold_" + str(i) + ".result")
     result_a = []
     result_l = []
 
